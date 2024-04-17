@@ -1,0 +1,655 @@
+#! /bin/sh
+patch -p1 -f $* < $0
+exit $?
+# Built by vitusb in 20240414
+# Encoded in utf-8 (UNIX LF)
+# diff -r -u a b >cherrytree-1.1.2_disarmed_patch.patch
+
+diff -r -u a/.old.pygtk2/modules/config.py b/.old.pygtk2/modules/config.py
+--- a/.old.pygtk2/modules/config.py	2024-04-12 22:51:57 +0000
++++ b/.old.pygtk2/modules/config.py	2024-04-14 18:13:00 +0000
+@@ -75,8 +75,13 @@
+ "sh": "sh",
+ }
+ CODE_EXEC_TERM_RUN_DEFAULT = {
+-"linux" : "xterm -hold -geometry 180x45 -e \"%s\"" % CODE_EXEC_COMMAND,
+-"win" : "start cmd /k \"%s\"" % CODE_EXEC_COMMAND,
++# Disarmed by vitusb in 20230804 ### BEGIN ###
++# "linux" : "xterm -hold -geometry 180x45 -e \"%s\"" % CODE_EXEC_COMMAND,
++# "win" : "start cmd /k \"%s\"" % CODE_EXEC_COMMAND,
++"linux" : "xterm -geometry 180x45 -e \"exit 0\"",
++"win" : "start cmd /c \"exit 0\"",
++# Disarmed by vitusb in 20230804 ###  END  ###
++
+ }
+ DEFAULT_MONOSPACE_BG = "#7f7f7f"
+ MAX_SIZE_EMBFILE_MB_DEFAULT = 10
+diff -r -u a/data/user-style.xml b/data/user-style.xml
+--- a/data/user-style.xml	2024-04-12 22:51:57 +0000
++++ b/data/user-style.xml	2023-09-05 12:43:14 +0000
+@@ -2,10 +2,115 @@
+ <style-scheme id="_userStyleId_" _name="User Style" version="1.0">
+   <author>Current User</author>
+   <_description>User Defined Style</_description>
+-  <style name="text"                foreground="_userStyleTextFg_" background="_userStyleTextBg_"/>
+-  <style name="selection"           foreground="_userStyleSelectionFg_" background="_userStyleSelectionBg_"/>
+-  <style name="cursor"              foreground="_userStyleCursor_"/>
+-  <style name="current-line"        background="_userStyleCurrentLineBg_"/>
+-  <style name="current-line-number" background="_userStyleCurrentLineBg_"/>
+-  <style name="line-numbers"        foreground="_userStyleLineNumbersFg_" background="_userStyleLineNumbersBg_"/>
++
++  <!-- THIS SCHEME WAS COPIED FROM CLASSIC THEME IN ORDER TO
++       PRECONFIGURE STANDARD BLACK/WHITE FG/BG-FORMAT OF TEXT.
++       ### by Veit Berwig 20230828 ###
++  -->
++
++  <!-- Palette -->
++  <color name="white"      value="#FFFFFF"/>
++  <color name="blue"       value="#0000FF"/>
++  <color name="magenta"    value="#FF00FF"/>
++  <color name="violet"     value="#6A5ACD"/>
++  <color name="cyan"       value="#008A8C"/>
++  <color name="gray"       value="#BEBEBE"/>
++  <color name="green"      value="#2E8B57"/>
++  <color name="bordeaux"   value="#A52A2A"/>
++  <color name="red"        value="#FF0000"/>
++  <color name="yellow"     value="#FFFF00"/>
++  <color name="purple"     value="#A020F0"/>
++
++  <!-- Global Settings -->
++  <style name="line-numbers"                background="#rgba(0,0,0,0.005)"/>
++  <style name="current-line"                background="#eeeeec"/>
++  <style name="current-line-number"         background="#eeeeec"/>
++  <style name="draw-spaces"                 foreground="#babdb6"/>
++  <style name="background-pattern"          background="#rgba(73,74,71,0.1)"/>
++
++  <!-- Bracket Matching -->
++  <style name="bracket-match"               foreground="white" background="gray"/>
++  <style name="bracket-mismatch"            foreground="white" background="red"/>
++
++  <!-- Right Margin -->
++  <style name="right-margin"                foreground="#000000" background="#000000"/>
++
++  <!-- Search Matching -->
++  <style name="search-match"                background="yellow"/>
++
++  <!-- Comments -->
++  <style name="def:comment"                 foreground="blue"/>
++  <style name="def:shebang"                 foreground="blue" bold="true"/>
++  <style name="def:doc-comment-element"     italic="true"/>
++
++  <!-- Constants -->
++  <style name="def:constant"                foreground="magenta"/>
++  <style name="def:special-char"            foreground="violet"/>
++
++  <!-- Identifiers -->
++  <style name="def:identifier"              foreground="cyan"/>
++
++  <!-- Statements -->
++  <style name="def:statement"               foreground="bordeaux" bold="true"/>
++
++  <!-- Types -->
++  <style name="def:type"                    foreground="green" bold="true"/>
++
++  <!-- Markup -->
++  <style name="def:emphasis"                italic="true"/>
++  <style name="def:strong-emphasis"         foreground="bordeaux" bold="true"/>
++  <style name="def:inline-code"             foreground="cyan"/>
++  <style name="def:insertion"               underline="single"/>
++  <style name="def:deletion"                strikethrough="true"/>
++  <style name="def:link-text"               foreground="blue"/>
++  <style name="def:link-symbol"             foreground="blue" bold="true"/>
++  <style name="def:link-destination"        italic="true" underline="single"/>
++  <style name="def:heading"                 foreground="green" bold="true"/>
++  <style name="def:thematic-break"          foreground="green" bold="true"/>
++  <style name="def:preformatted-section"    foreground="cyan"/>
++  <style name="def:list-marker"             foreground="bordeaux" bold="true"/>
++
++  <!-- Others -->
++  <style name="def:preprocessor"            foreground="purple"/>
++  <style name="def:error"                   background="red" bold="true"/>
++  <style name="def:warning"                 background="yellow"/>
++  <style name="def:note"                    foreground="blue" background="yellow" bold="true"/>
++  <style name="def:net-address"             italic="true" underline="single"/>
++
++  <!-- Heading styles, uncomment to enable -->
++  <!--
++  <style name="def:heading0"                scale="5.0"/>
++  <style name="def:heading1"                scale="2.5"/>
++  <style name="def:heading2"                scale="2.0"/>
++  <style name="def:heading3"                scale="1.7"/>
++  <style name="def:heading4"                scale="1.5"/>
++  <style name="def:heading5"                scale="1.3"/>
++  <style name="def:heading6"                scale="1.2"/>
++  -->
++
++  <!-- Language specific styles -->
++  <style name="diff:added-line"             foreground="#008B8B"/>
++  <style name="diff:removed-line"           foreground="#6A5ACD"/>
++  <style name="diff:changed-line"           use-style="def:preprocessor"/>
++  <style name="diff:special-case"           use-style="def:constant"/>
++  <style name="diff:location"               use-style="def:statement"/>
++  <style name="diff:diff-file"              use-style="def:type"/>
++
++  <style name="xml:tags"                    foreground="cyan"/>
++  <style name="xml:attribute-name"          foreground="violet"/>
++  <style name="xml:namespace"               foreground="green" bold="true"/>
++
++  <style name="js:built-in-constructor"     use-style="def:identifier"/>
++
++  <style name="latex:display-math"          foreground="#6A5ACD"/>
++  <style name="latex:command"               foreground="#2E8B57" bold="true"/>
++  <style name="latex:include"               use-style="def:preprocessor"/>
++
++  <style name="sh:variable"                 foreground="#6A5ACD"/>
++
++  <!-- legacy styles for old lang files -->
++  <style name="Others"                      foreground="#2E8B57" bold="true"/>
++  <style name="Others 2"                    foreground="#008B8B"/>
++  <style name="Others 3"                    foreground="#6A5ACD"/>
++
+ </style-scheme>
+diff -r -u a/po/de.po b/po/de.po
+--- a/po/de.po	2024-04-12 22:51:59 +0000
++++ b/po/de.po	2024-04-14 21:51:40 +0000
+@@ -1284,7 +1284,7 @@
+ msgstr "_Über"
+ 
+ msgid "About CherryTree"
+-msgstr "Über CherryTree"
++msgstr "Über CherryTree (disarmed)"
+ 
+ msgid "_Open Preferences Directory"
+ msgstr "_Ordner mit Einstellungen öffnen"
+diff -r -u a/scripts/cherrytree.iss b/scripts/cherrytree.iss
+--- a/scripts/cherrytree.iss	2024-04-12 22:51:59 +0000
++++ b/scripts/cherrytree.iss	2024-04-17 13:46:11 +0000
+@@ -1,12 +1,73 @@
+ ; Script generated by the Inno Setup Script Wizard.
+ ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
+ 
++; --- Changelog BEGIN ---
++; ======================================================================
++; 20230828
++; ======================================================================
++; Force Working-PATH when launching App by klicking on linked
++; App-documents by their extension-registrations unter HKCR.
++; This is important for execution-security, when loading environmental
++; files from .-directory; .i e. dlls or external executables without
++; providing an absolute path for these files.
++; I'm using the global-implementation by "HKLM" (NOT "HKCU" like the
++; example from here: https://stackoverflow.com/a/2822987 )
++;
++; Be aware ...
++;
++; "C:\\Program Files\\Cherrytree\\mingw64\\bin\\cherrytree.exe"
++; and "C:\\Program Files\\Cherrytree\\mingw64\\bin\\" are only
++; symbolic names for logical properties of MSI-Installers or InnoSetup
++; Installers. Use allways the referenced logical property from the
++; installer-logic i. e.: [#cherrytree.exe] and [bin_dir] for MSI or
++; "{app}\mingw64\bin\{#MyAppExeName}" for InnoSetup, etc.
++;
++; Veit Berwig --- 20230828 ---
++;
++; ======================================================================
++; 20230829
++; ======================================================================
++; New Release
++;
++; ======================================================================
++; 20230901
++; ======================================================================
++; Added file-synchronization of a predefined, fixed "config.cfg" into
++; user profile-dir, in order to fix false CTRL-ALT (ALT_GR)-keyboard
++; mappings on INTERNATIONAL keyboards with ALT_GR-key. The sync-process
++; is realized with the most famous "FastCopy" (Freeware) in a "RUN"
++; Reg-Key because it only shows a tiny tray-icon during its execution
++; when running it with commandline-options. No console-window will be
++; shown :-)
++;
++; ======================================================================
++; 20230905
++; ======================================================================
++; Due to changes in design:
++; Changed function from "GetFileVersion" to "GetVersionNumbersString"
++;
++; ======================================================================
++; 20240417
++; ======================================================================
++; CherryTree updated to v1.1.2.0
++; Now only the disarmed version is provided (for security reasons).
++; Added a fix for german keyboard mapping "ALT-GR+\", that is not
++; committed til now.
++; Support-Links changed.
++;
++; --- Changelog  END  ---
++
+ #define MyAppName "CherryTree"
+ #define MyAppPublisher "Giuseppe Penone"
+ #define MyAppURL "https://www.giuspen.net/cherrytree/"
++#define MyAppSuppURL "https://github.com/vitusb/cherrytree/"
+ #define MyAppExeName "cherrytree.exe"
+ #define Username "giusp"
+-#define MyAppVersion GetFileVersion('C:\msys64\home\giusp\git\cherrytree\build\cherrytree.exe')
++#define MyAppVersion GetVersionNumbersString('cherrytree_win64_portable\mingw64\bin\cherrytree.exe')
++
++; ### ADDED BY vitusb IN 20230731 --- BEGIN ---
++#define MyAppVersionDescription "Cherrytree Setup (disarmed)"
++; ### ADDED BY vitusb IN 20230731 ---  END  ---
+ 
+ [Setup]
+ ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
+@@ -17,41 +78,89 @@
+ ;AppVerName={#MyAppName} {#MyAppVersion}
+ AppPublisher={#MyAppPublisher}
+ AppPublisherURL={#MyAppURL}
+-AppSupportURL={#MyAppURL}
+-AppUpdatesURL={#MyAppURL}
++AppSupportURL={#MyAppSuppURL}
++AppUpdatesURL={#MyAppSuppURL}
++; ### ADDED BY vitusb IN 20230731 --- BEGIN ---
++VersionInfoDescription={#MyAppVersionDescription}
++VersionInfoVersion={#MyAppVersion}
++; ### ADDED BY vitusb IN 20230731 ---  END  ---
+ DefaultDirName={autopf}\{#MyAppName}
+ DisableProgramGroupPage=yes
+-OutputDir=C:\Users\{#Username}\Desktop
++OutputDir=installer.out
+ ArchitecturesAllowed=x64
+ ArchitecturesInstallIn64BitMode=x64
+-LicenseFile=C:\Users\{#Username}\Desktop\cherrytree_{#MyAppVersion}_win64_portable\license.txt
++LicenseFile=license.txt
+ ; Uncomment the following line to run in non administrative install mode (install for current user only.)
+ ;PrivilegesRequired=lowest
+-OutputBaseFilename=cherrytree_{#MyAppVersion}_win64_setup
+-SetupIconFile=C:\msys64\home\{#Username}\git\cherrytree\icons\cherrytree.ico
++OutputBaseFilename=cherrytree_{#MyAppVersion}_win64_disarmed_setup
++SetupIconFile=cherrytree.ico
+ Compression=lzma2
+ SolidCompression=yes
+ WizardStyle=modern
+ ChangesAssociations=yes
++; ### FIXED MISSING UNINSTALLER ICON IN "Programs and Features" BY vitusb IN 20230731 --- BEGIN ---
++; ### We have to provide "cherrytree.ico" in
++; ### package source-dir ".\cherrytree_win64_portable"
++UninstallDisplayIcon={app}\cherrytree.ico
++; ### FIXED MISSING UNINSTALLER ICON IN "Programs and Features" BY vitusb IN 20230731 ---  END  ---
+ 
+ [Registry]
+-Root: HKCR; Subkey: ".ctb"; ValueType: string; ValueName: ""; ValueData: "CherryTreeB"; Flags: uninsdeletevalue
++Root: HKCR; Subkey: ".ctb"; ValueType: string; ValueName: ""; ValueData: "CherryTreeB"; Flags: uninsdeletevalue uninsdeletekeyifempty
+ Root: HKCR; Subkey: "CherryTreeB"; ValueType: string; ValueName: ""; ValueData: "CherryTree SQLite Document"; Flags: uninsdeletekey
+ Root: HKCR; Subkey: "CherryTreeB\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\mingw64\bin\{#MyAppExeName},0"
+ Root: HKCR; Subkey: "CherryTreeB\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\mingw64\bin\{#MyAppExeName}"" ""%1"""
+-Root: HKCR; Subkey: ".ctx"; ValueType: string; ValueName: ""; ValueData: "CherryTreeX"; Flags: uninsdeletevalue
++Root: HKCR; Subkey: ".ctx"; ValueType: string; ValueName: ""; ValueData: "CherryTreeX"; Flags: uninsdeletevalue uninsdeletekeyifempty
+ Root: HKCR; Subkey: "CherryTreeX"; ValueType: string; ValueName: ""; ValueData: "CherryTree SQLite Zipped"; Flags: uninsdeletekey
+ Root: HKCR; Subkey: "CherryTreeX\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\mingw64\bin\{#MyAppExeName},0"
+ Root: HKCR; Subkey: "CherryTreeX\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\mingw64\bin\{#MyAppExeName}"" ""%1"""
+-Root: HKCR; Subkey: ".ctd"; ValueType: string; ValueName: ""; ValueData: "CherryTreeD"; Flags: uninsdeletevalue
++Root: HKCR; Subkey: ".ctd"; ValueType: string; ValueName: ""; ValueData: "CherryTreeD"; Flags: uninsdeletevalue uninsdeletekeyifempty
+ Root: HKCR; Subkey: "CherryTreeD"; ValueType: string; ValueName: ""; ValueData: "CherryTree XML Document"; Flags: uninsdeletekey
+ Root: HKCR; Subkey: "CherryTreeD\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\mingw64\bin\{#MyAppExeName},0"
+ Root: HKCR; Subkey: "CherryTreeD\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\mingw64\bin\{#MyAppExeName}"" ""%1"""
+-Root: HKCR; Subkey: ".ctz"; ValueType: string; ValueName: ""; ValueData: "CherryTreeZ"; Flags: uninsdeletevalue
++Root: HKCR; Subkey: ".ctz"; ValueType: string; ValueName: ""; ValueData: "CherryTreeZ"; Flags: uninsdeletevalue uninsdeletekeyifempty
+ Root: HKCR; Subkey: "CherryTreeZ"; ValueType: string; ValueName: ""; ValueData: "CherryTree XML Zipped"; Flags: uninsdeletekey
+ Root: HKCR; Subkey: "CherryTreeZ\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\mingw64\bin\{#MyAppExeName},0"
+ Root: HKCR; Subkey: "CherryTreeZ\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\mingw64\bin\{#MyAppExeName}"" ""%1"""
+ 
++Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{#MyAppExeName}"; ValueType: string; ValueName: ""; ValueData: "{app}\mingw64\bin\{#MyAppExeName}"; Flags: uninsdeletekey
++Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{#MyAppExeName}"; ValueType: string; ValueName: "Path"; ValueData: "{app}\mingw64\bin\"; Flags: uninsdeletevalue
++
++; ======================================================================
++; ### Use FastCopy for directory-synchronization                   BEGIN
++; ======================================================================
++; The behavior depends on whether or not '\' is the end of DestDir.
++; 1. IF the last character of DestDir is '\' copy Source directory,
++;    including itself, to DestDir (DestDir\SourceDir\Contents_of_SourceDir).
++;
++; 2. IF the last character of DestDir is NOT '\',	copy Source directory's
++;    contents to DestDir (DestDir\Contents_of_SourceDir).
++;    However, if multiple directories are specified in Source,
++;    the behavior will be changed to 1. !!
++;
++; (Mini Tips)
++; If you want to copy Source directory's contents to the DestDir that is
++; specified drive root, please append "*" to Source directory. For example,
++; if Source is "C:\Folder1\*" and DestDir "D:\", the result is
++; D:\(Contents_of_Folder1).
++;
++; Option "/no_ui"
++; ===============
++; Dialog box will not be shown. This is for background tasks. If /no_ui
++; is used, /no_confirm_del /no_confirm_stop /force_close are set
++; automatically. If FastCopy runs in session 0 (e.g. running with task-
++; scheduler), /no_ui is set automatically. However even if /no_ui is set,
++; standby/hibernate/shutdown countdown dialog will not be prevented. 
++;
++; Old Commandline-options:
++; /cmd=update /auto_close /force_close /estimate /log=FALSE
++; New Commandline-options:
++; /cmd=update /auto_close /estimate /no_ui /log=FALSE
++; ======================================================================
++; Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueName: "Cherrytree_Pre_Config"; ValueType: ExpandSZ; ValueData: """{app}\fastcopy\FastCopy.exe"" /cmd=update /auto_close /estimate /no_ui /log=FALSE ""{app}\templates\cherrytree"" /to=""%USERPROFILE%\AppData\Local\"""; Flags: uninsdeletevalue
++; ======================================================================
++; ### Use FastCopy for directory-synchronization                     END
++; ======================================================================
++
+ [Languages]
+ Name: "english"; MessagesFile: "compiler:Default.isl"
+ Name: "armenian"; MessagesFile: "compiler:Languages\Armenian.isl"
+@@ -82,9 +191,22 @@
+ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+ 
+ [Files]
+-Source: "C:\Users\{#Username}\Desktop\cherrytree_{#MyAppVersion}_win64_portable\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
++Source: "cherrytree_win64_portable\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
++; ### BLOCK EXTERNAL EXECUTION HARDENING BY vitusb IN 20230731 --- BEGIN ---
++; Source: ".\do_nothing\cmd.exe"; DestDir: "{app}\mingw64\bin"; Flags: ignoreversion
++; Source: ".\do_nothing\cmd.do_nothing.txt"; DestDir: "{app}\mingw64\bin"; Flags: ignoreversion
++; Source: ".\do_nothing\cmd.do_nothing.src.zip"; DestDir: "{app}\mingw64\bin"; Flags: ignoreversion
++; ### BLOCK EXTERNAL EXECUTION HARDENING BY vitusb IN 20230731 ---  END  ---
+ ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+ 
++; ======================================================================
++; ### FastCopy for file-synching into %USERPROFILE%"
++; Source: "fastcopy_win64\*"; DestDir: "{app}\fastcopy"; Flags: ignoreversion recursesubdirs createallsubdirs
++
++; ======================================================================
++; ### Config-Templates for file-synching into %USERPROFILE%"
++; Source: "cherrytree_config\templates\*"; DestDir: "{app}\templates"; Flags: ignoreversion recursesubdirs createallsubdirs
++
+ [Icons]
+ Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\mingw64\bin\{#MyAppExeName}"
+ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\mingw64\bin\{#MyAppExeName}"; Tasks: desktopicon
+diff -r -u a/scripts/cherrytree_nolatex.iss b/scripts/cherrytree_nolatex.iss
+--- a/scripts/cherrytree_nolatex.iss	2024-04-12 22:51:59 +0000
++++ b/scripts/cherrytree_nolatex.iss	2024-04-17 13:46:14 +0000
+@@ -1,12 +1,73 @@
+ ; Script generated by the Inno Setup Script Wizard.
+ ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
+ 
++; --- Changelog BEGIN ---
++; ======================================================================
++; 20230828
++; ======================================================================
++; Force Working-PATH when launching App by klicking on linked
++; App-documents by their extension-registrations unter HKCR.
++; This is important for execution-security, when loading environmental
++; files from .-directory; .i e. dlls or external executables without
++; providing an absolute path for these files.
++; I'm using the global-implementation by "HKLM" (NOT "HKCU" like the
++; example from here: https://stackoverflow.com/a/2822987 )
++;
++; Be aware ...
++;
++; "C:\\Program Files\\Cherrytree\\mingw64\\bin\\cherrytree.exe"
++; and "C:\\Program Files\\Cherrytree\\mingw64\\bin\\" are only
++; symbolic names for logical properties of MSI-Installers or InnoSetup
++; Installers. Use allways the referenced logical property from the
++; installer-logic i. e.: [#cherrytree.exe] and [bin_dir] for MSI or
++; "{app}\mingw64\bin\{#MyAppExeName}" for InnoSetup, etc.
++;
++; Veit Berwig --- 20230828 ---
++;
++; ======================================================================
++; 20230829
++; ======================================================================
++; New Release
++;
++; ======================================================================
++; 20230901
++; ======================================================================
++; Added file-synchronization of a predefined, fixed "config.cfg" into
++; user profile-dir, in order to fix false CTRL-ALT (ALT_GR)-keyboard
++; mappings on INTERNATIONAL keyboards with ALT_GR-key. The sync-process
++; is realized with the most famous "FastCopy" (Freeware) in a "RUN"
++; Reg-Key because it only shows a tiny tray-icon during its execution
++; when running it with commandline-options. No console-window will be
++; shown :-)
++;
++; ======================================================================
++; 20230905
++; ======================================================================
++; Due to changes in design:
++; Changed function from "GetFileVersion" to "GetVersionNumbersString"
++;
++; ======================================================================
++; 20240417
++; ======================================================================
++; CherryTree updated to v1.1.2.0
++; Now only the disarmed version is provided (for security reasons).
++; Added a fix for german keyboard mapping "ALT-GR+\", that is not
++; committed til now.
++; Support-Links changed.
++;
++; --- Changelog  END  ---
++
+ #define MyAppName "CherryTree"
+ #define MyAppPublisher "Giuseppe Penone"
+ #define MyAppURL "https://www.giuspen.net/cherrytree/"
++#define MyAppSuppURL "https://github.com/vitusb/cherrytree/"
+ #define MyAppExeName "cherrytree.exe"
+ #define Username "giusp"
+-#define MyAppVersion GetFileVersion('C:\msys64\home\giusp\git\cherrytree\build\cherrytree.exe')
++#define MyAppVersion GetVersionNumbersString('cherrytree_win64_portable\mingw64\bin\cherrytree.exe')
++
++; ### ADDED BY vitusb IN 20230731 --- BEGIN ---
++#define MyAppVersionDescription "Cherrytree NoLatex Setup (disarmed)"
++; ### ADDED BY vitusb IN 20230731 ---  END  ---
+ 
+ [Setup]
+ ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
+@@ -17,41 +78,89 @@
+ ;AppVerName={#MyAppName} {#MyAppVersion}
+ AppPublisher={#MyAppPublisher}
+ AppPublisherURL={#MyAppURL}
+-AppSupportURL={#MyAppURL}
+-AppUpdatesURL={#MyAppURL}
++AppSupportURL={#MyAppSuppURL}
++AppUpdatesURL={#MyAppSuppURL}
++; ### ADDED BY vitusb IN 20230731 --- BEGIN ---
++VersionInfoDescription={#MyAppVersionDescription}
++VersionInfoVersion={#MyAppVersion}
++; ### ADDED BY vitusb IN 20230731 ---  END  ---
+ DefaultDirName={autopf}\{#MyAppName}
+ DisableProgramGroupPage=yes
+-OutputDir=C:\Users\{#Username}\Desktop
++OutputDir=installer.out
+ ArchitecturesAllowed=x64
+ ArchitecturesInstallIn64BitMode=x64
+-LicenseFile=C:\Users\{#Username}\Desktop\cherrytree_{#MyAppVersion}_win64_portable_nolatex\license.txt
++LicenseFile=license.txt
+ ; Uncomment the following line to run in non administrative install mode (install for current user only.)
+ ;PrivilegesRequired=lowest
+-OutputBaseFilename=cherrytree_{#MyAppVersion}_win64_setup_nolatex
+-SetupIconFile=C:\msys64\home\{#Username}\git\cherrytree\icons\cherrytree.ico
++OutputBaseFilename=cherrytree_{#MyAppVersion}_win64_disarmed_setup_nolatex
++SetupIconFile=cherrytree.ico
+ Compression=lzma2
+ SolidCompression=yes
+ WizardStyle=modern
+ ChangesAssociations=yes
++; ### FIXED MISSING UNINSTALLER ICON IN "Programs and Features" BY vitusb IN 20230731 --- BEGIN ---
++; ### We have to provide "cherrytree.ico" in
++; ### package source-dir ".\cherrytree_win64_portable"
++UninstallDisplayIcon={app}\cherrytree.ico
++; ### FIXED MISSING UNINSTALLER ICON IN "Programs and Features" BY vitusb IN 20230731 ---  END  ---
+ 
+ [Registry]
+-Root: HKCR; Subkey: ".ctb"; ValueType: string; ValueName: ""; ValueData: "CherryTreeB"; Flags: uninsdeletevalue
++Root: HKCR; Subkey: ".ctb"; ValueType: string; ValueName: ""; ValueData: "CherryTreeB"; Flags: uninsdeletevalue uninsdeletekeyifempty
+ Root: HKCR; Subkey: "CherryTreeB"; ValueType: string; ValueName: ""; ValueData: "CherryTree SQLite Document"; Flags: uninsdeletekey
+ Root: HKCR; Subkey: "CherryTreeB\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\mingw64\bin\{#MyAppExeName},0"
+ Root: HKCR; Subkey: "CherryTreeB\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\mingw64\bin\{#MyAppExeName}"" ""%1"""
+-Root: HKCR; Subkey: ".ctx"; ValueType: string; ValueName: ""; ValueData: "CherryTreeX"; Flags: uninsdeletevalue
++Root: HKCR; Subkey: ".ctx"; ValueType: string; ValueName: ""; ValueData: "CherryTreeX"; Flags: uninsdeletevalue uninsdeletekeyifempty
+ Root: HKCR; Subkey: "CherryTreeX"; ValueType: string; ValueName: ""; ValueData: "CherryTree SQLite Zipped"; Flags: uninsdeletekey
+ Root: HKCR; Subkey: "CherryTreeX\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\mingw64\bin\{#MyAppExeName},0"
+ Root: HKCR; Subkey: "CherryTreeX\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\mingw64\bin\{#MyAppExeName}"" ""%1"""
+-Root: HKCR; Subkey: ".ctd"; ValueType: string; ValueName: ""; ValueData: "CherryTreeD"; Flags: uninsdeletevalue
++Root: HKCR; Subkey: ".ctd"; ValueType: string; ValueName: ""; ValueData: "CherryTreeD"; Flags: uninsdeletevalue uninsdeletekeyifempty
+ Root: HKCR; Subkey: "CherryTreeD"; ValueType: string; ValueName: ""; ValueData: "CherryTree XML Document"; Flags: uninsdeletekey
+ Root: HKCR; Subkey: "CherryTreeD\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\mingw64\bin\{#MyAppExeName},0"
+ Root: HKCR; Subkey: "CherryTreeD\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\mingw64\bin\{#MyAppExeName}"" ""%1"""
+-Root: HKCR; Subkey: ".ctz"; ValueType: string; ValueName: ""; ValueData: "CherryTreeZ"; Flags: uninsdeletevalue
++Root: HKCR; Subkey: ".ctz"; ValueType: string; ValueName: ""; ValueData: "CherryTreeZ"; Flags: uninsdeletevalue uninsdeletekeyifempty
+ Root: HKCR; Subkey: "CherryTreeZ"; ValueType: string; ValueName: ""; ValueData: "CherryTree XML Zipped"; Flags: uninsdeletekey
+ Root: HKCR; Subkey: "CherryTreeZ\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\mingw64\bin\{#MyAppExeName},0"
+ Root: HKCR; Subkey: "CherryTreeZ\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\mingw64\bin\{#MyAppExeName}"" ""%1"""
+ 
++Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{#MyAppExeName}"; ValueType: string; ValueName: ""; ValueData: "{app}\mingw64\bin\{#MyAppExeName}"; Flags: uninsdeletekey
++Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{#MyAppExeName}"; ValueType: string; ValueName: "Path"; ValueData: "{app}\mingw64\bin\"; Flags: uninsdeletevalue
++
++; ======================================================================
++; ### Use FastCopy for directory-synchronization                   BEGIN
++; ======================================================================
++; The behavior depends on whether or not '\' is the end of DestDir.
++; 1. IF the last character of DestDir is '\' copy Source directory,
++;    including itself, to DestDir (DestDir\SourceDir\Contents_of_SourceDir).
++;
++; 2. IF the last character of DestDir is NOT '\',	copy Source directory's
++;    contents to DestDir (DestDir\Contents_of_SourceDir).
++;    However, if multiple directories are specified in Source,
++;    the behavior will be changed to 1. !!
++;
++; (Mini Tips)
++; If you want to copy Source directory's contents to the DestDir that is
++; specified drive root, please append "*" to Source directory. For example,
++; if Source is "C:\Folder1\*" and DestDir "D:\", the result is
++; D:\(Contents_of_Folder1).
++;
++; Option "/no_ui"
++; ===============
++; Dialog box will not be shown. This is for background tasks. If /no_ui
++; is used, /no_confirm_del /no_confirm_stop /force_close are set
++; automatically. If FastCopy runs in session 0 (e.g. running with task-
++; scheduler), /no_ui is set automatically. However even if /no_ui is set,
++; standby/hibernate/shutdown countdown dialog will not be prevented. 
++;
++; Old Commandline-options:
++; /cmd=update /auto_close /force_close /estimate /log=FALSE
++; New Commandline-options:
++; /cmd=update /auto_close /estimate /no_ui /log=FALSE
++; ======================================================================
++; Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueName: "Cherrytree_Pre_Config"; ValueType: ExpandSZ; ValueData: """{app}\fastcopy\FastCopy.exe"" /cmd=update /auto_close /estimate /no_ui /log=FALSE ""{app}\templates\cherrytree"" /to=""%USERPROFILE%\AppData\Local\"""; Flags: uninsdeletevalue
++; ======================================================================
++; ### Use FastCopy for directory-synchronization                     END
++; ======================================================================
++
+ [Languages]
+ Name: "english"; MessagesFile: "compiler:Default.isl"
+ Name: "armenian"; MessagesFile: "compiler:Languages\Armenian.isl"
+@@ -82,9 +191,22 @@
+ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+ 
+ [Files]
+-Source: "C:\Users\{#Username}\Desktop\cherrytree_{#MyAppVersion}_win64_portable_nolatex\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
++Source: "cherrytree_win64_portable_nolatex\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
++; ### BLOCK EXTERNAL EXECUTION HARDENING BY vitusb IN 20230731 --- BEGIN ---
++; Source: ".\do_nothing\cmd.exe"; DestDir: "{app}\mingw64\bin"; Flags: ignoreversion
++; Source: ".\do_nothing\cmd.do_nothing.txt"; DestDir: "{app}\mingw64\bin"; Flags: ignoreversion
++; Source: ".\do_nothing\cmd.do_nothing.src.zip"; DestDir: "{app}\mingw64\bin"; Flags: ignoreversion
++; ### BLOCK EXTERNAL EXECUTION HARDENING BY vitusb IN 20230731 ---  END  ---
+ ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+ 
++; ======================================================================
++; ### FastCopy for file-synching into %USERPROFILE%"
++; Source: "fastcopy_win64\*"; DestDir: "{app}\fastcopy"; Flags: ignoreversion recursesubdirs createallsubdirs
++
++; ======================================================================
++; ### Config-Templates for file-synching into %USERPROFILE%"
++; Source: "cherrytree_config\templates\*"; DestDir: "{app}\templates"; Flags: ignoreversion recursesubdirs createallsubdirs
++
+ [Icons]
+ Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\mingw64\bin\{#MyAppExeName}"
+ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\mingw64\bin\{#MyAppExeName}"; Tasks: desktopicon
+diff -r -u a/scripts/msys2_prepare_standalone.sh b/scripts/msys2_prepare_standalone.sh
+--- a/scripts/msys2_prepare_standalone.sh	2024-04-12 22:51:59 +0000
++++ b/scripts/msys2_prepare_standalone.sh	2024-04-14 16:59:29 +0000
+@@ -50,6 +50,9 @@
+ mkdir -p ${NEW_MSYS2_FOLDER}
+ pushd ${NEW_MSYS2_FOLDER} > /dev/null
+ mkdir -p var/lib/pacman
++# --- Fix for xml package error by vitusb in 20230806 --- BEGIN ---
++mkdir -p mingw64/etc/xml
++# --- Fix for xml package error by vitusb in 20230806 ---  END  ---
+ mkdir -p var/log
+ mkdir -p tmp
+ pacman -Syu --root ${NEW_MSYS2_FOLDER}
+diff -r -u a/src/ct/ct_actions_others.cc b/src/ct/ct_actions_others.cc
+--- a/src/ct/ct_actions_others.cc	2024-04-12 22:51:59 +0000
++++ b/src/ct/ct_actions_others.cc	2024-04-14 17:09:38 +0000
+@@ -476,7 +476,10 @@
+ 
+ void CtActions::_exec_code(const bool is_all)
+ {
+-    if (not _is_there_selected_node_or_error()) return;
++    // --- Disarmed by vitusb in 20230804 --- BEGIN ---
++    // if (not _is_there_selected_node_or_error()) return;
++    return;
++    // --- Disarmed by vitusb in 20230804 ---  END  ---
+ 
+     std::string code_type;
+     Glib::ustring code_val;
+diff -r -u a/src/ct/ct_config.cc b/src/ct/ct_config.cc
+--- a/src/ct/ct_config.cc	2024-04-12 22:51:59 +0000
++++ b/src/ct/ct_config.cc	2024-04-14 21:37:20 +0000
+@@ -413,7 +413,10 @@
+ 
+     // [codexec_term]
+     _currentGroup = "codexec_term";
+-    _uKeyFile->set_string(_currentGroup, "custom_codexec_term", customCodexecTerm);
++    // --- Disarmed by vitusb in 20230804 --- BEGIN ---
++    // _uKeyFile->set_string(_currentGroup, "custom_codexec_term", customCodexecTerm);
++    _uKeyFile->set_string(_currentGroup, "custom_codexec_term", "None");
++    // --- Disarmed by vitusb in 20230804 ---  END  ---
+ 
+     // [codexec_type]
+     _currentGroup = "codexec_type";
+@@ -748,7 +751,10 @@
+ 
+     // [codexec_term]
+     _currentGroup = "codexec_term";
+-    _populate_string_from_keyfile("custom_codexec_term", &customCodexecTerm);
++    // --- Disarmed by vitusb in 20230804 --- BEGIN ---
++    // _populate_string_from_keyfile("custom_codexec_term", &customCodexecTerm);
++    customCodexecTerm = "None";
++    // --- Disarmed by vitusb in 20230804 ---  END ---
+ 
+     // [codexec_type]
+     _currentGroup = "codexec_type";
+diff -r -u a/src/ct/ct_const.h b/src/ct/ct_const.h
+--- a/src/ct/ct_const.h	2024-04-12 22:51:59 +0000
++++ b/src/ct/ct_const.h	2024-04-14 17:22:12 +0000
+@@ -640,8 +640,12 @@
+ };
+ 
+ const inline static std::unordered_map<std::string, std::string> CODE_EXEC_TERM_RUN_DEFAULT {
+-    {"linux", std::string("xterm -hold -geometry 180x45 -e \"") + CODE_EXEC_COMMAND + "\" &"},
+-    {"win",   std::string("start cmd /k \"") + CODE_EXEC_COMMAND + "\""}
++    // --- Disarmed by vitusb in 20230804 --- BEGIN ---
++    // {"linux", std::string("xterm -hold -geometry 180x45 -e \"") + CODE_EXEC_COMMAND + "\" &"},
++    // {"win",   std::string("start cmd /k \"") + CODE_EXEC_COMMAND + "\""}
++    {"linux", std::string("xterm -geometry 180x45 -e \"") + "exit 0" + "\" &"},
++    {"win",   std::string("start cmd /c \"") + "exit 0" + "\""}
++    // --- Disarmed by vitusb in 20230804 ---  END  ---
+ };
+ 
+ const inline static std::array<std::string_view, 4>  INVALID_HTML_TAGS = {
+diff -r -u a/src/ct/ct_menu_actions.cc b/src/ct/ct_menu_actions.cc
+--- a/src/ct/ct_menu_actions.cc	2024-04-12 22:51:59 +0000
++++ b/src/ct/ct_menu_actions.cc	2024-04-14 21:55:03 +0000
+@@ -197,7 +197,10 @@
+     _actions.push_back(CtMenuAction{editor_cat, "table_export", "ct_table_save", _("_Table Export..."), None,
+         _("Export Table as CSV File"), sigc::mem_fun(*pActions, &CtActions::table_export)});
+ 
+-    _actions.push_back(CtMenuAction{editor_cat, "codebox_change_properties", "ct_codebox_edit", _("Change CodeBox _Properties..."), KB_CONTROL+"backslash",
++    // --- Fixed for german keyboard by vitusb in 20240414 --- BEGIN ---
++    // _actions.push_back(CtMenuAction{editor_cat, "codebox_change_properties", "ct_codebox_edit", _("Change CodeBox _Properties..."), KB_CONTROL+"backslash",
++    _actions.push_back(CtMenuAction{editor_cat, "codebox_change_properties", "ct_codebox_edit", _("Change CodeBox _Properties..."), KB_CONTROL+KB_SHIFT+"g",
++    // --- Fixed for german keyboard by vitusb in 20240414 ---  END  ---
+         _("Edit the Properties of the CodeBox"), sigc::mem_fun(*pActions, &CtActions::codebox_change_properties)});
+     _actions.push_back(CtMenuAction{editor_cat, "codebox_load_from_file", "ct_from_txt", _("CodeBox _Load From Text File..."), None,
+         _("Load the CodeBox Content From a Text File"), sigc::mem_fun(*pActions, &CtActions::codebox_load_from_file)});
