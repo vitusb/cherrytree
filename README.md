@@ -18,7 +18,7 @@ Den öffentlichen OpenPGP-Signaturschlüssel finden sie hier: [vitusb_software_s
 
 ### - English -
 
-(The MSI-packages are created by [Advanced Installer](https://www.advancedinstaller.com/) from [Caphyon](https://www.caphyon.com/).)
+(The MSI-packages were created by [Advanced Installer](https://www.advancedinstaller.com/) from [Caphyon](https://www.caphyon.com/).)
 
 This is a disarmed version of "cherrytree" for Windows x64 build. The patch prevents "cherrytree" from executing code-blocks by external shells and also forces to set the value of "custom_codexec_term" to "None" in "config.cfg". For details to the changes, look into the patch-file in the source-tree. The patches are not applied in the source code, but always exist at the respective release status as a patch-file in the source-tree.
 
