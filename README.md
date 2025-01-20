@@ -1,3 +1,34 @@
+## Cherrytree (disarmed Version)
+
+### - Deutsch -
+
+(Die MSI-Pakete sind mit dem [Advanced Installer](https://www.advancedinstaller.com/) von [Caphyon](https://www.caphyon.com/) erstellt worden.)
+
+Dies ist eine gehärtete Version von "cherrytree" für Windows x64-bit Build. Der Patch verhindert, dass "cherrytree" Codeblöcke durch externe Shells ausführt und erzwingt den Wert von "custom_codexec_term" in der "config.cfg" auf "None" zu setzen. Einzelheiten zu den Änderungen finden Sie in der Patch-Datei im Quellbaum. Die Patches sind nicht im Quellcode angewendet, sondern existieren jeweils immer zu dem jeweiligen Release-Stand als Patch-Datei im Quellpfad.
+
+Unbeaufsichtigte synchrone Installation (Exe-Installer Beispiel: gestartete Shell mit administrativen Rechten):<br>
+```
+start /wait "" "cherrytree_x.x.x.x_win64_disarmed_setup.exe" /LANG=German /VERYSILENT /NORESTART /LOG
+
+start /wait "" "cherrytree_x.x.x.x_win64_disarmed_setup_nolatex.exe" /LANG=German /VERYSILENT /NORESTART /LOG
+```
+
+### - English -
+
+(The MSI-packages were created by [Advanced Installer](https://www.advancedinstaller.com/) from [Caphyon](https://www.caphyon.com/).)
+
+This is a disarmed version of "cherrytree" for Windows x64 build. The patch prevents "cherrytree" from executing code-blocks by external shells and also forces to set the value of "custom_codexec_term" to "None" in "config.cfg". For details to the changes, look into the patch-file in the source-tree. The patches are not applied in the source code, but always exist at the respective release status as a patch-file in the source-tree.
+
+Unattended synchronous installation (Exe-Installer example: started shell with administrative rights):<br>
+```
+start /wait "" "cherrytree_x.x.x.x_win64_disarmed_setup.exe" /LANG=English /VERYSILENT /NORESTART /LOG
+
+start /wait "" "cherrytree_x.x.x.x_win64_disarmed_setup_nolatex.exe" /LANG=English /VERYSILENT /NORESTART /LOG
+```
+You can find the public OpenPGP signature key here: [vitusb_software_signing_key.zip](https://github.com/vitusb/cherrytree/files/15015491/vitusb_software_signing_key.zip)
+
+### - Original Readme follows -
+
 # CherryTree
 A hierarchical note taking application, featuring rich text and syntax highlighting, storing data in either a single file (xml or sqlite) or multiple files and directories.
 The project home page is [giuspen.net/cherrytree](https://www.giuspen.net/cherrytree/).
