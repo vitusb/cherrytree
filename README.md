@@ -25,7 +25,6 @@ start /wait "" "cherrytree_x.x.x.x_win64_disarmed_setup.exe" /LANG=English /VERY
 
 start /wait "" "cherrytree_x.x.x.x_win64_disarmed_setup_nolatex.exe" /LANG=English /VERYSILENT /NORESTART /LOG
 ```
-You can find the public OpenPGP signature key here: [vitusb_software_signing_key.zip](https://github.com/vitusb/cherrytree/files/15015491/vitusb_software_signing_key.zip)
 
 ### - Original Readme follows -
 
